@@ -1,6 +1,8 @@
 # vue_tickets
 
-## Project setup
+ - [View on github.io](https://corobox.github.io/vue-tickets/)
+
+## Project setup:
 ```
 npm install
 ```
@@ -20,5 +22,9 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Technologies:
+ - HTML/CSS/JS
+ - Sass
+ - Vue.js framework
+ - based on Vue-cli 3
+
