@@ -49,7 +49,7 @@
 
 <script>
 export default {
-
+  name: 'ticket-card',
 }
 </script>
 
@@ -57,7 +57,7 @@ export default {
   .ticket {
     width: 566px;
     height: 161px;
-    margin: 50px auto 0;
+    margin-bottom: 20px;
     display: flex;
 
     border-radius: 5px;

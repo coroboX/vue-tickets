@@ -1,25 +1,39 @@
 <template>
   <div id="app">
-    <img
-      src="./assets/logo.svg"
-      alt="logo that displays white plane on blue circle"
-    >
-    <ticket-card></ticket-card>
+    <header class="header">
+      <img
+        class="header__logo"
+        src="./assets/logo.svg"
+        alt="logo that displays white plane on blue circle"
+      />
+    </header>
+    <main class="content">
+      <filter-card></filter-card>
+      <section class="tickets">
+        <ticket-card></ticket-card>
+        <ticket-card></ticket-card>
+        <ticket-card></ticket-card>
+        <ticket-card></ticket-card>
+        <ticket-card></ticket-card>
+      </section>
+    </main>
   </div>
 </template>
 
 <script>
+import FilterCard from './components/FilterCard.vue'
 import TicketCard from './components/TicketCard.vue'
 
 export default {
   name: 'App',
   components: {
+    FilterCard,
     TicketCard,
   }
 }
 </script>
 
-<style>
+<style lang="scss">
   * {
     box-sizing: border-box;
     margin: 0;
@@ -31,6 +45,28 @@ export default {
     font-size: 16px;
     line-height: 1.4;
 
-    background-color: #eceff1;
+    background-color: #f2f2f2;
+  }
+
+  .header {
+    height: fit-content;
+    padding-top: 50px;
+
+    &__logo {
+      
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0px 8px 11px rgba(55, 104, 142, 0.25);
+      border-radius: 50%;
+    }
+  }
+
+  .content {
+    width: 820px;
+    margin: 50px auto 0;
+    display: flex;
+    justify-content: space-between;
+
+    border: 1px solid rgb(236, 14, 14);
   }
 </style>
