@@ -27,8 +27,10 @@ export default {
   }
 
   html {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
     font-size: 16px;
+    line-height: 1.4;
+
     background-color: #eceff1;
   }
 </style>
