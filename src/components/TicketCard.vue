@@ -14,8 +14,32 @@
         </p>
       </button>
     </div>
-
-
+    <div class="ticket__descriptions">
+      <div class="ticket__departure">
+        <p class="ticket__time ticket__time--departure">
+          09:25
+        </p>
+        <p class="ticket__place ticket__place--departure">
+          VVO, Владивосток
+        </p>
+        <p class="ticket__date ticket__date--departure">
+          9 окт 2018, Пт
+        </p>
+      </div>
+      <div class="ticket__arrival">
+        <p class="ticket__time ticket__time--arrival">
+          10:45
+        </p>
+        <p class="ticket__place ticket__place--arrival">
+          Тель-Авив, TLV
+        </p>
+        <p class="ticket__date ticket__date--arrival">
+          10 окт 2018, Пт
+        </p>
+      </div>
+      <div class="ticket__stops">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,7 +60,7 @@ export default {
     background-color: #fff;
     border: 1px solid pink;
 
-    &__action{ 
+    &__action{
       width: 200px;
       height: 100%;
       padding: 25px 0;
@@ -72,6 +96,44 @@ export default {
     &__button:hover {
       background-color: #ff8124;
       cursor: pointer;
+    }
+
+    &__descriptions {
+      color: #4a4a4a;
+
+      position: relative;
+      padding: 25px;
+
+      flex-grow: 2;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__time {
+      font-size: 32px;
+      line-height: 26px;
+    }
+
+    &__place {
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 600;
+
+      margin-top: 10px;
+    }
+
+    &__date {
+      color: #8b9497;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    &__arrival {
+      text-align: right;
+    }
+
+    &__stops {
+      position: absolute;
     }
   }
 
