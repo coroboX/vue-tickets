@@ -2,7 +2,7 @@
   <div class="ticket">
     <div class="ticket__action">
       <img
-        class="ticket__airline-logo"
+        class="ticket__carrier-logo"
         src="./../assets/turkish-airlines-logo-sm.png"
       />
       <button class="button ticket__button">
@@ -48,7 +48,7 @@ export default {
       border-right: 1px solid #eceff1;
     }
 
-    &__airline-logo {
+    &__carrier-logo {
       width: 120px;
     }
 
