@@ -8,28 +8,31 @@
       />
     </header>
     <main class="content">
-      <filter-card></filter-card>
-      <section class="tickets">
-        <ticket-card></ticket-card>
-        <ticket-card></ticket-card>
-        <ticket-card></ticket-card>
-        <ticket-card></ticket-card>
-        <ticket-card></ticket-card>
-      </section>
+      <FilterCard />
+
+      <TicketsList
+        v-bind:tks="tks"
+      />
     </main>
   </div>
 </template>
 
 <script>
-import FilterCard from './components/FilterCard.vue'
-import TicketCard from './components/TicketCard.vue'
+import FilterCard from './components/FilterCard.vue';
+import TicketsList from './components/TicketsList.vue';
+import tickets from './api/tickets'
 
 export default {
   name: 'App',
   components: {
     FilterCard,
-    TicketCard,
-  }
+    TicketsList,
+  },
+  data() {
+    return {
+      tks: tickets,
+    }
+  },
 }
 </script>
 
