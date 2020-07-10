@@ -62,8 +62,8 @@ export default {
 
     border-radius: 5px;
     background-color: #fff;
-    border: 1px solid pink;
-
+    box-shadow: 0 0 0 1px rgb(248, 130, 130);
+    
     &__action{
       width: 200px;
       height: 100%;
@@ -141,7 +141,7 @@ export default {
       width: 110px;
 
       position: absolute;
-      top: 24px;
+      top: 16px;
       left: 50%;
 
       transform: translateX(-50%);
@@ -153,7 +153,9 @@ export default {
 
       color: #8b9497;
       font-size: 10px;
+      margin-bottom: 7px;
       text-align: center;
+      text-transform: uppercase;
     }
 
     &__arrow {

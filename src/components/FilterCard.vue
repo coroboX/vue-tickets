@@ -1,9 +1,14 @@
 <template>
   <div class="filter">
     <form
-      name=filter
+      name="filter"
+      class="filter-form"
     >
+      <p class="filter-form__description">
+        Валюта
+      </p>
       <div class="radio-group">
+
         <label class="radio-label">
           <input
             type="radio"
@@ -28,7 +33,9 @@
         </label>
       </div>
       
-      <hr>
+      <p class="filter-form__description">
+        Количество пересадок
+      </p>
       <label class="checkbox-label">Все
         <input
           type="checkbox"
@@ -40,12 +47,22 @@
           type="checkbox"
         >
         <span class="checkmark"></span>
+        <button
+          class="checkbox-label__only"
+        >
+          Только
+        </button>
       </label>
       <label class="checkbox-label">1 пересадка
         <input
           type="checkbox"
         >
         <span class="checkmark"></span>
+        <button
+          class="checkbox-label__only"
+        >
+          Только
+        </button>
       </label>
       <label class="checkbox-label">2 пересадки
         <input
@@ -53,6 +70,11 @@
           checked="checked"
         >
         <span class="checkmark"></span>
+        <button
+          class="checkbox-label__only"
+        >
+          Только
+        </button>
       </label>
       <label class="checkbox-label">3 пересадки
         <input
@@ -60,6 +82,11 @@
           checked="checked"
         >
         <span class="checkmark"></span>
+        <button
+          class="checkbox-label__only"
+        >
+          Только
+        </button>
       </label>
     </form>
   </div>
@@ -71,26 +98,63 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   .filter {
     width: 232px;
     height: 332px;
-    padding: 15px;
+    padding: 18px 0;
 
     border-radius: 5px;
     background: #FFFFFF;
     box-shadow: 0px 1px 4px rgba(91, 137, 164, 0.25);
-    border: 1px solid rgb(201, 192, 255);
+    box-shadow: 0 0 0 1px rgb(248, 130, 130);
   }
 
+  .filter-form {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: #4a4a4a;
+
+    &__description {
+      text-transform: uppercase;
+      margin-bottom: 11px;
+      padding-left: 15px;
+    }
+  }
+  
   .checkbox-label {
+    letter-spacing: 0;
     display: block;
     position: relative;
-    padding-left: 35px;
+    padding-left: 45px;
+
     cursor: pointer;
     font-size: 13px;
+    font-weight: normal;
     line-height: 35px;
     user-select: none;
+
+    &__only {
+      display: none;
+      height: 100%;
+      position: absolute;
+      right: 15px;
+
+      color: #2196f3;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+
+      background: inherit;
+      outline: none;
+      border: none;
+    }
+
+    &:hover {
+      background-color: #F1FCFF;
+    }
   }
 
   .checkbox-label input {
@@ -105,7 +169,7 @@ export default {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 0;
+    left: 15px;
     height: 19px;
     width: 19px;
 
@@ -116,13 +180,15 @@ export default {
   .checkmark--all {
     height: 21px;
     width: 21px;
+    left: 14px;
+
   }
   .checkbox-label:hover input ~ .checkmark {
       box-shadow: 0 0 2px 0px black;
   }
 
   .checkbox-label input:checked ~ .checkmark {
-    border-color: #2196F3;
+    border-color: #2196f3;
   }
 
   .checkmark:after {
@@ -134,10 +200,13 @@ export default {
   .checkbox-label input:checked ~ .checkmark:after {
     display: block;
   }
+  .checkbox-label:hover input:checked ~ .checkbox-label__only {
+    display: inline;
+  }
 
-  .checkbox-label .checkmark:after {
-    left: 6.5px;
-    top: 4px;
+  .checkmark:after {
+    left: 6px;
+    top: 3.5px;
     width: 3px;
     height: 6px;
     border: solid #2196f3;
@@ -145,14 +214,21 @@ export default {
     transform: rotate(45deg);
   }
 
+  .checkmark--all:after {
+    left: 7px;
+    top: 4px;
+  }
+
   .radio-group {
-    width: 202px;
+    margin-bottom: 33px;
     height: 40px;
+    padding: 0 15px;
   }
 
   .radio-label {
     position: relative;
-    width: 33%;
+    width: calc(33% + 1.5px);
+    height: 100%;
     display: inline-block;
     cursor: pointer;
     margin-right: -1px;
@@ -177,12 +253,17 @@ export default {
   }
 
   .radiomark {
+    font-size: 12px;
+    padding-top: 12px;
+    font-weight: 600;
+    color: #2196F3;
+
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #eee;
+    background-color: #fff;
     box-shadow: inset 0 0 0 1px #d2d5d6;
   }
 
@@ -193,6 +274,7 @@ export default {
   }
 
   .radio-label input:checked ~ .radiomark {
+    color: #fff;
     background-color: #2196f3;
     box-shadow: inset 0 0 0 1px #2196f3;
     z-index: 1;

@@ -67,6 +67,6 @@ export default {
     display: flex;
     justify-content: space-between;
 
-    border: 1px solid rgb(236, 14, 14);
+    box-shadow: 0 0 0 1px rgb(248, 130, 130);
   }
 </style>
