@@ -1,6 +1,6 @@
 # vue_tickets
 
- - [View on github.io](https://corobox.github.io/vue-tickets/)
+ - [View on github.io](https://corobox.github.io/vue-tickets/index.html)
 
 ## Project setup:
 ```
