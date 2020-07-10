@@ -10,28 +10,28 @@
           Купить
         </p>
         <p class="button__price">
-          за 20 056 ₽
+          за {{price}} ₽
         </p>
       </button>
     </div>
     <div class="ticket__descriptions">
       <div class="ticket__departure">
         <p class="ticket__time ticket__time--departure">
-          09:25
+          {{departure_time}}
         </p>
         <p class="ticket__place ticket__place--departure">
-          VVO, Владивосток
+          {{origin}}, {{ticket.origin_name}}
         </p>
         <p class="ticket__date ticket__date--departure">
-          9 окт 2018, Пт
+          {{departure_date}}
         </p>
       </div>
       <div class="ticket__arrival">
         <p class="ticket__time ticket__time--arrival">
-          10:45
+          {{arrival_time}}
         </p>
         <p class="ticket__place ticket__place--arrival">
-          Тель-Авив, TLV
+          {{destination_name}}, {{destination}}
         </p>
         <p class="ticket__date ticket__date--arrival">
           10 окт 2018, Пт
@@ -39,7 +39,7 @@
       </div>
       <div class="ticket__stops">
         <span class="ticket__stops-text">
-          2 Пересадки
+          {{stops}} Пересадки
         </span>
         <div class="ticket__arrow"></div>
       </div>
@@ -49,7 +49,37 @@
 
 <script>
 export default {
-  name: 'ticket-card',
+  name: 'TicketCard',
+  props: ['ticket'],
+  data() {
+    const {
+      origin,
+      origin_name,
+      destination,
+      destination_name,
+      departure_date,
+      departure_time,
+      arrival_date,
+      arrival_time,
+      carrier,
+      stops,
+      price,
+    } = this.ticket;
+
+    return {
+      origin,
+      origin_name,
+      destination,
+      destination_name,
+      departure_date,
+      departure_time,
+      arrival_date,
+      arrival_time,
+      carrier,
+      stops,
+      price,
+    }
+  }
 }
 </script>
 

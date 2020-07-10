@@ -94,7 +94,7 @@
 
 <script>
 export default {
-  name: 'filter-card',
+  name: 'FilterCard',
 }
 </script>
 
@@ -200,8 +200,16 @@ export default {
   .checkbox-label input:checked ~ .checkmark:after {
     display: block;
   }
+
   .checkbox-label:hover input:checked ~ .checkbox-label__only {
     display: inline;
+  }
+
+  .checkbox-label__only:focus,
+  .checkbox-label__only:hover {
+    display: inline;
+    font-weight: 600;
+    text-decoration: underline;
   }
 
   .checkmark:after {
