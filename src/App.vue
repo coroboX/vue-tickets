@@ -69,7 +69,13 @@ export default {
     margin: 50px auto 0;
     display: flex;
     justify-content: space-between;
+  }
 
-    box-shadow: 0 0 0 1px rgb(248, 130, 130);
+  @media (max-width: 840px) {
+    .content {
+      width: fit-content;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 </style>

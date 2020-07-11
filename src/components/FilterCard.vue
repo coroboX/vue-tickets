@@ -103,11 +103,11 @@ export default {
     width: 232px;
     height: 332px;
     padding: 18px 0;
+    margin-bottom: 20px;
 
     border-radius: 5px;
     background: #FFFFFF;
     box-shadow: 0px 1px 4px rgba(91, 137, 164, 0.25);
-    box-shadow: 0 0 0 1px rgb(248, 130, 130);
   }
 
   .filter-form {
