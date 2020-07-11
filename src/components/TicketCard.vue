@@ -34,12 +34,12 @@
           {{destination_name}}, {{destination}}
         </p>
         <p class="ticket__date ticket__date--arrival">
-          10 окт 2018, Пт
+          {{arrival_date}}
         </p>
       </div>
       <div class="ticket__stops">
         <span class="ticket__stops-text">
-          {{stops}} Пересадки
+          {{stops}}
         </span>
         <div class="ticket__arrow"></div>
       </div>

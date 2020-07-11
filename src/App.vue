@@ -11,7 +11,7 @@
       <FilterCard />
 
       <TicketsList
-        v-bind:tks="tks"
+        v-bind:rawTickets="rawTickets"
       />
     </main>
   </div>
@@ -20,7 +20,7 @@
 <script>
 import FilterCard from './components/FilterCard.vue';
 import TicketsList from './components/TicketsList.vue';
-import tickets from './api/tickets'
+import { tickets as rawTickets } from './api/tickets'
 
 export default {
   name: 'App',
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      tks: tickets,
+      rawTickets,
     }
   },
 }
