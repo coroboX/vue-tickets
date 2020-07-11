@@ -1,10 +1,9 @@
 <template>
   <div class="ticket">
     <div class="ticket__action">
-      <img
-        class="ticket__carrier-logo"
-        src="./../assets/turkish-airlines-logo-sm.png"
-      />
+      <div
+        :class="'ticket__carrier-logo ' + carrier"
+      ></div>
       <button class="button ticket__button">
         <p class="button__description">
           Купить
@@ -20,7 +19,7 @@
           {{departure_time}}
         </p>
         <p class="ticket__place ticket__place--departure">
-          {{origin}}, {{ticket.origin_name}}
+          {{origin}}, {{origin_name}}
         </p>
         <p class="ticket__date ticket__date--departure">
           {{departure_date}}
@@ -84,6 +83,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .TK {
+    background-image: url('./../assets/TK_logo.png');
+  }
+  .SU {
+    background-image: url('./../assets/SU_logo.svg');
+  }
+  .S7 {
+    background-image: url('./../assets/S7_logo.svg');
+  }
+  .BA {
+    background-image: url('./../assets/BA_logo.svg');
+  }
+  
   .ticket {
     width: 566px;
     height: 161px;
@@ -109,6 +121,10 @@ export default {
 
     &__carrier-logo {
       width: 120px;
+      height: 35px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     &__button {
