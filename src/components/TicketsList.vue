@@ -3,7 +3,7 @@
     class="tickets"
   >
     <TicketCard
-      v-for="ticket in tickets"
+      v-for="ticket in filteredTickets"
       v-bind:key="ticket.id"
       v-bind:ticket="ticket"
       v-bind:currency="currency"
@@ -84,6 +84,14 @@ import {v4 as uuid} from 'uuid';
     };
   };
 
+  const formatTickets = (rates, tickets) => {
+    const locale = 'ru-ru';
+
+    return tickets
+      .map(ticket => formatTicketFields(ticket, locale, rates));
+
+  };
+
 export default {
   name: 'TicketsList',
 
@@ -94,14 +102,12 @@ export default {
   },
 
   data() {
-    const locale = 'ru-ru';
-    const rates = this.currencyRates;
-    const tickets = this.rawTickets
-      .map(ticket => formatTicketFields(ticket, locale, rates));
     const currency = this.cur;
+    const rates = this.currencyRates;
+    const tickets = formatTickets(rates, this.rawTickets);
 
     return {
-      tickets,
+      filteredTickets: tickets,
       currency,
     };
   },
@@ -113,6 +119,11 @@ export default {
   watch: { 
     cur(newVal) {
       this.currency = newVal;
+    },
+
+    rawTickets(newVal) {
+      const rates = this.currencyRates;
+      this.filteredTickets = formatTickets(rates, newVal);
     }
   },
 }

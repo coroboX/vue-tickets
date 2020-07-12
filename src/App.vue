@@ -11,12 +11,11 @@
       <FilterCard 
         v-bind:filter="filterState"
         v-on:currency-changed="handleCurrencyChange($event)"
-        v-on:stops-changed="handleStops($event)"
         v-on:only="handleOnlyStop($event)"
       />
 
       <TicketsList
-        v-bind:rawTickets="rawTickets"
+        v-bind:rawTickets="filterTickets"
         v-bind:currencyRates="rates"
         v-bind:cur="filterState.currency"
       />
@@ -31,21 +30,27 @@ import { tickets as rawTickets } from './api/tickets'
 
 export default {
   name: 'App',
+
   components: {
     FilterCard,
     TicketsList,
   },
+
   data() {
     return {
       rawTickets,
       filteredTickets: rawTickets,
+      filters: [],
+
       rates: {
         RUB: { sym: '₽', val: 1 },
         USD: { sym: '$', val: 70.73 },
         EUR: { sym: '€', val: 79.89 },
       },
+
       filterState: {
         currency: 'RUB',
+
         stops: {
           0: true,
           1: true,
@@ -53,9 +58,8 @@ export default {
           3: true,
           all: true,
         },
-        stopsOnly: 'none',
-      }
-    }
+      },
+    };
   },
 
   methods: {
@@ -63,13 +67,7 @@ export default {
       this.filterState.currency = currency;
     },
 
-    handleStops(stops) {
-      console.log(stops.all, [stops[0], stops[1], stops[2], stops[3]]);
-      
-    },
-
     handleOnlyStop(val) {
-      console.log('upper only', val);
       const stops = this.filterState.stops;
 
       for (const key in stops) {
@@ -78,6 +76,25 @@ export default {
 
       stops[val] = true;
       this.filterState.stops = stops;
+    },
+  },
+
+  computed: {
+    filterTickets: function() {
+      const tickets = this.rawTickets;
+      const stops = this.filterState.stops;
+      const filteredTickets = tickets.filter(ticket => {
+
+        for (const key in stops) {
+          if (ticket.stops === +key && stops[key]) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+
+      return filteredTickets;
     },
   }
 

@@ -120,6 +120,7 @@
 <script>
 export default {
   name: 'FilterCard',
+
   props: {
     filter: Object,
   },
@@ -133,15 +134,14 @@ export default {
     return {
       currency: currentCurrency,
       stops,
-    }
+    };
   },
 
   methods: {
     handleAll() {
       const { all } = this.stops;
-      console.log('all', all);
 
-      if(all) {
+      if (all) {
         for (const key in this.stops) {
           this.stops[key] = true;
         }
@@ -149,18 +149,9 @@ export default {
     },
 
     handleStops(val) {
-      console.log('stop', val);
       if (!this.stops[val]) {
         this.stops.all = false;
       }
-    },
-
-    handleStopOnly(val) {
-      console.log('only', val)
-      for (const key in this.stops) {
-        this.stops[key] = false;
-      }
-      this.stops[val] = true;
     },
   },
 
