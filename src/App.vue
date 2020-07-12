@@ -27,6 +27,7 @@
 import FilterCard from './components/FilterCard.vue';
 import TicketsList from './components/TicketsList.vue';
 import { tickets as rawTickets } from './api/tickets'
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -40,7 +41,6 @@ export default {
     return {
       rawTickets,
       filteredTickets: rawTickets,
-      filters: [],
 
       rates: {
         RUB: { sym: '₽', val: 1 },
@@ -96,7 +96,19 @@ export default {
 
       return filteredTickets;
     },
-  }
+  },
+
+  created() {
+    axios.get('http://data.fixer.io/api/latest?access_key=75717cf964abe30c69db800e618eda19&symbols=USD,RUB&format=1')
+      .then(response => {
+        const rates = response.data.rates;
+        this.rates.EUR.val = rates.RUB;
+        this.rates.USD.val = rates.RUB / rates.USD;
+        console.log('get from server:');
+        console.log('USD: ', this.rates.USD.val, 'EUR: ', this.rates.EUR.val);
+      })
+      .catch(error => console.log(error));
+}     
 
 }
 </script>
