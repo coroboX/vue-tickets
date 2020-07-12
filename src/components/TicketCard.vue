@@ -152,6 +152,7 @@ export default {
       background-color: #ff6d00;
       border: none;
       border-radius: 5px;
+      transition: background-color 0.25s ease;
     }
 
     &__button:hover {

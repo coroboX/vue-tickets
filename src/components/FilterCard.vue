@@ -238,6 +238,7 @@ export default {
 
     border-radius: 3px;
     border: 1px solid #d2d5d6;
+    transition: box-shadow 0.25s ease;
   }
 
   .checkmark--all {
@@ -336,6 +337,8 @@ export default {
     width: 100%;
     background-color: #fff;
     box-shadow: inset 0 0 0 1px #d2d5d6;
+    transition: background-color 0.25s ease,
+      color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .radio-label:hover input ~ .radiomark {
