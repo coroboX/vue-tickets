@@ -13,7 +13,9 @@
           <input
             type="radio"
             name="radio"
-            checked="checked"
+            value="RUB"
+            v-model="currency"
+            v-on:change="$emit('currency-changed', currency)"
           >
           <span class="radiomark">Rub</span>
         </label>
@@ -21,6 +23,9 @@
           <input
             type="radio"
             name="radio"
+            value="USD"
+            v-model="currency"
+            v-on:change="$emit('currency-changed', currency)"
           >
           <span class="radiomark">Usd</span>
         </label>
@@ -28,6 +33,9 @@
           <input
             type="radio"
             name="radio"
+            value="EUR"
+            v-model="currency"
+            v-on:change="$emit('currency-changed', currency)"
           >
           <span class="radiomark">Eur</span>
         </label>
@@ -95,6 +103,21 @@
 <script>
 export default {
   name: 'FilterCard',
+  props: ['filter'],
+
+  data() {
+    const {
+      currentCurrency,
+    } = this.filter;
+
+    return {
+      currency: currentCurrency,
+    }
+  },
+
+  mounted () {
+    this.currency = this.filter.currency;
+  },
 }
 </script>
 

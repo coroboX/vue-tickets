@@ -6,6 +6,7 @@
       v-for="ticket in tickets"
       v-bind:key="ticket.id"
       v-bind:ticket="ticket"
+      v-bind:currency="currency"
     />
   </section>
 </template>
@@ -38,21 +39,30 @@ import {v4 as uuid} from 'uuid';
     return pronounce[stop];
   };
 
-  const formatPrice = priceNumber => {
-    let formattedPrice = '';
-    const stringPrice = ('' + priceNumber)
-    const stringPriceLength = stringPrice.length;
+  const formatPrice = (priceValue, rates) => {
+    const exchanges = Object.entries(rates);
+    const formattedPrices = {};
 
-    for (let i = 1; i <= stringPriceLength; i += 1) {
-      formattedPrice = (i % 3 - 1)
-        ? stringPrice[stringPriceLength - i] + formattedPrice
-        : stringPrice[stringPriceLength - i] + ' ' + formattedPrice;
-    }
+    exchanges.forEach(exchange => {
+      const [ currency, { sym, val } ] = exchange;
+      const exPrice = Math.round(priceValue / val);
+      const stringPrice = ('' + exPrice);
+      const stringPriceLength = stringPrice.length;
+      let formattedPrice = '';
 
-    return formattedPrice;
+      for (let i = 1; i <= stringPriceLength; i += 1) {
+        formattedPrice = (i % 3 - 1)
+          ? stringPrice[stringPriceLength - i] + formattedPrice
+          : stringPrice[stringPriceLength - i] + ' ' + formattedPrice;
+      }
+
+      formattedPrices[currency] = `${formattedPrice}${sym}`
+    });
+
+    return formattedPrices;
   };
 
-  const formatTicketFields = (ticket, locale) => {
+  const formatTicketFields = (ticket, locale, rates) => {
     const {
       arrival_date,
       departure_date,
@@ -62,7 +72,7 @@ import {v4 as uuid} from 'uuid';
     const formattedArrivalDate = formatDateItl(arrival_date, locale);
     const formattedDepartureDate = formatDateItl(departure_date, locale);
     const formattedStops = formatStopsRu(stops);
-    const formattedPrice = formatPrice(price);
+    const formattedPrice = formatPrice(price, rates);
 
     return {
       ...ticket,
@@ -70,7 +80,7 @@ import {v4 as uuid} from 'uuid';
       arrival_date: formattedArrivalDate,
       departure_date: formattedDepartureDate,
       stops: formattedStops,
-      price: formattedPrice,
+      prices: formattedPrice,
     };
   };
 
@@ -79,25 +89,32 @@ export default {
 
   props: {
     rawTickets: Array,
+    currencyRates: Object,
+    cur: String,
   },
 
   data() {
     const locale = 'ru-ru';
+    const rates = this.currencyRates;
     const tickets = this.rawTickets
-      .map(ticket => formatTicketFields(ticket, locale));
+      .map(ticket => formatTicketFields(ticket, locale, rates));
+    const currency = this.cur;
 
     return {
       tickets,
-    }
+      currency,
+    };
   },
 
   components: {
     TicketCard,
   },
 
-  created() {
-
-  }
+  watch: { 
+    cur(newVal) {
+      this.currency = newVal;
+    }
+  },
 }
 </script>
 

@@ -9,7 +9,7 @@
           Купить
         </p>
         <p class="button__price">
-          за {{price}} ₽
+          за {{price}}
         </p>
       </button>
     </div>
@@ -49,7 +49,11 @@
 <script>
 export default {
   name: 'TicketCard',
-  props: ['ticket'],
+  props: {
+    ticket: Object,
+    currency: String,
+  },
+
   data() {
     const {
       origin,
@@ -62,7 +66,7 @@ export default {
       arrival_time,
       carrier,
       stops,
-      price,
+      prices,
     } = this.ticket;
 
     return {
@@ -76,9 +80,16 @@ export default {
       arrival_time,
       carrier,
       stops,
-      price,
+      price: prices[this.currency],
+      prices,
+    };
+  },
+
+  watch: { 
+    currency (newVal) {
+      this.price = this.prices[newVal];
     }
-  }
+  },
 }
 </script>
 
@@ -228,7 +239,7 @@ export default {
     .ticket {
       width: 95vw;
       min-width: 466px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       &__stops {
         top: 100px;
       }
@@ -243,14 +254,13 @@ export default {
       align-items: center;
 
       &__action {
-        flex-direction: row;
+        flex-direction: row-reverse;
         border: none;
         width: 90%;
       }
 
       &__button {
-        margin-left: 20px;
-        font-size: 13px;
+        margin-right: 20px;
       }
 
       &__descriptions {

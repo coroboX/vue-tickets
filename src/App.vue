@@ -8,10 +8,15 @@
       />
     </header>
     <main class="content">
-      <FilterCard />
+      <FilterCard 
+        v-bind:filter="filterState"
+        v-on:currency-changed="handleCurrencyChange($event)"
+      />
 
       <TicketsList
         v-bind:rawTickets="rawTickets"
+        v-bind:currencyRates="rates"
+        v-bind:cur="filterState.currency"
       />
     </main>
   </div>
@@ -31,8 +36,29 @@ export default {
   data() {
     return {
       rawTickets,
+      rates: {
+        RUB: { sym: '₽', val: 1 },
+        USD: { sym: '$', val: 70.73 },
+        EUR: { sym: '€', val: 79.89 },
+      },
+      filterState: {
+        currency: 'RUB',
+        stops: {
+          0: false,
+          1: false,
+          2: false,
+          3: false,
+          all: false,
+        },
+        stopsOnly: 'none',
+      }
     }
   },
+  methods: {
+    handleCurrencyChange(currency){
+      this.filterState.currency = currency;
+    }
+  }
 }
 </script>
 
