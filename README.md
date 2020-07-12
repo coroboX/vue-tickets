@@ -1,6 +1,19 @@
 # vue_tickets
 
- - [View on github.io](https://corobox.github.io/vue-tickets/index.html)
+ - [View on github.io](https://corobox.github.io/vue-tickets/)
+
+
+## Project description:
+This is simplified tickets filter, based on Vue.js
+
+tickets from JSON file,
+exchange rates from https://exchangeratesapi.io/ free API
+
+### Used technologies/libraries:
+ - HTML/CSS/JS
+ - Sass
+ - Vue.js / vue-cli / axios
+
 
 ## Project setup:
 ```
@@ -16,15 +29,7 @@ npm start
 ```
 npm run build
 ```
-
-### Lints and fixes files
+### Build and deploy to gh-pages:
 ```
-npm run lint
+npm run build
 ```
-
-### Technologies:
- - HTML/CSS/JS
- - Sass
- - Vue.js framework
- - based on Vue-cli 3
-
