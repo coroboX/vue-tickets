@@ -11,6 +11,8 @@
       <FilterCard 
         v-bind:filter="filterState"
         v-on:currency-changed="handleCurrencyChange($event)"
+        v-on:stops-changed="handleStops($event)"
+        v-on:only="handleOnlyStop($event)"
       />
 
       <TicketsList
@@ -36,6 +38,7 @@ export default {
   data() {
     return {
       rawTickets,
+      filteredTickets: rawTickets,
       rates: {
         RUB: { sym: '₽', val: 1 },
         USD: { sym: '$', val: 70.73 },
@@ -44,21 +47,40 @@ export default {
       filterState: {
         currency: 'RUB',
         stops: {
-          0: false,
-          1: false,
-          2: false,
-          3: false,
-          all: false,
+          0: true,
+          1: true,
+          2: true,
+          3: true,
+          all: true,
         },
         stopsOnly: 'none',
       }
     }
   },
+
   methods: {
-    handleCurrencyChange(currency){
+    handleCurrencyChange(currency) {
       this.filterState.currency = currency;
-    }
+    },
+
+    handleStops(stops) {
+      console.log(stops.all, [stops[0], stops[1], stops[2], stops[3]]);
+      
+    },
+
+    handleOnlyStop(val) {
+      console.log('upper only', val);
+      const stops = this.filterState.stops;
+
+      for (const key in stops) {
+        stops[key] = false;
+      }
+
+      stops[val] = true;
+      this.filterState.stops = stops;
+    },
   }
+
 }
 </script>
 

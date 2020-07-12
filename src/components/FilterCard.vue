@@ -1,6 +1,6 @@
 <template>
   <div class="filter">
-    <form
+    <div
       name="filter"
       class="filter-form"
     >
@@ -8,7 +8,6 @@
         Валюта
       </p>
       <div class="radio-group">
-
         <label class="radio-label">
           <input
             type="radio"
@@ -44,75 +43,125 @@
       <p class="filter-form__description">
         Количество пересадок
       </p>
-      <label class="checkbox-label">Все
-        <input
-          type="checkbox"
-        >
-        <span class="checkmark checkmark--all"></span>
-      </label>
-      <label class="checkbox-label">Без пересадок
-        <input
-          type="checkbox"
-        >
-        <span class="checkmark"></span>
-        <button
-          class="checkbox-label__only"
-        >
-          Только
-        </button>
-      </label>
-      <label class="checkbox-label">1 пересадка
-        <input
-          type="checkbox"
-        >
-        <span class="checkmark"></span>
-        <button
-          class="checkbox-label__only"
-        >
-          Только
-        </button>
-      </label>
-      <label class="checkbox-label">2 пересадки
-        <input
-          type="checkbox"
-          checked="checked"
-        >
-        <span class="checkmark"></span>
-        <button
-          class="checkbox-label__only"
-        >
-          Только
-        </button>
-      </label>
-      <label class="checkbox-label">3 пересадки
-        <input
-          type="checkbox"
-          checked="checked"
-        >
-        <span class="checkmark"></span>
-        <button
-          class="checkbox-label__only"
-        >
-          Только
-        </button>
-      </label>
-    </form>
+      <div
+        class="check-group"
+        v-on:change="$emit('stops-changed', stops)"
+      >
+        <label class="checkbox-label">Все
+          <input
+            type="checkbox"
+            name="all"
+            v-model="stops['all']"
+            v-on:change="handleAll"
+          >
+          <span class="checkmark checkmark--all"></span>
+        </label>
+        <label class="checkbox-label">Без пересадок
+          <input
+            type="checkbox"
+            v-model="stops[0]"
+            v-on:change="handleStops(0)"
+          >
+          <span class="checkmark"></span>
+          <button
+            class="checkbox-label__only"
+            v-on:click="$emit('only', 0)"
+          >
+            Только
+          </button>
+        </label>
+        <label class="checkbox-label">1 пересадка
+          <input
+            type="checkbox"
+            v-model="stops[1]"
+            v-on:change="handleStops(1)"
+          >
+          <span class="checkmark"></span>
+          <button
+            class="checkbox-label__only"
+            v-on:click="$emit('only', 1)"
+          >
+            Только
+          </button>
+        </label>
+        <label class="checkbox-label">2 пересадки
+          <input
+            type="checkbox"
+            v-model="stops[2]"
+            v-on:change="handleStops(2)"
+          >
+          <span class="checkmark"></span>
+          <button
+            class="checkbox-label__only"
+            v-on:click="$emit('only', 2)"
+          >
+            Только
+          </button>
+        </label>
+        <label class="checkbox-label">3 пересадки
+          <input
+            type="checkbox"
+            v-model="stops[3]"
+            v-on:change="handleStops(3)"
+          >
+          <span class="checkmark"></span>
+          <button
+            class="checkbox-label__only"
+            v-on:click="$emit('only', 3)"
+          >
+            Только
+          </button>
+        </label>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'FilterCard',
-  props: ['filter'],
+  props: {
+    filter: Object,
+  },
 
   data() {
     const {
       currentCurrency,
+      stops,
     } = this.filter;
 
     return {
       currency: currentCurrency,
+      stops,
     }
+  },
+
+  methods: {
+    handleAll() {
+      const { all } = this.stops;
+      console.log('all', all);
+
+      if(all) {
+        for (const key in this.stops) {
+          this.stops[key] = true;
+        }
+      }
+    },
+
+    handleStops(val) {
+      console.log('stop', val);
+      if (!this.stops[val]) {
+        this.stops.all = false;
+      }
+    },
+
+    handleStopOnly(val) {
+      console.log('only', val)
+      for (const key in this.stops) {
+        this.stops[key] = false;
+      }
+      this.stops[val] = true;
+    },
   },
 
   mounted () {
