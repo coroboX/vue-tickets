@@ -99,7 +99,7 @@ export default {
   },
 
   created() {
-    axios.get('http://data.fixer.io/api/latest?access_key=75717cf964abe30c69db800e618eda19&symbols=USD,RUB&format=1')
+    axios.get('https://api.exchangeratesapi.io/latest?symbols=USD,RUB')
       .then(response => {
         const rates = response.data.rates;
         this.rates.EUR.val = rates.RUB;
