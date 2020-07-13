@@ -6,7 +6,8 @@
 ## Project description:
 This is simplified tickets filter, based on Vue.js
 
-tickets from JSON file,
+tickets from JSON [placeholder server](https://my-json-server.typicode.com/),
+
 exchange rates from https://exchangeratesapi.io/ free API
 
 ### Used technologies/libraries:
