@@ -15,7 +15,6 @@
       />
 
       <TicketsList
-        v-bind:rawTickets="rawTickets"
         v-bind:currencyRates="rates"
         v-bind:cur="filterState.currency"
         v-bind:stops="filterState.stops"
@@ -27,7 +26,6 @@
 <script>
 import FilterCard from './components/FilterCard.vue';
 import TicketsList from './components/TicketsList.vue';
-import { tickets as rawTickets } from './api/tickets'
 import axios from 'axios';
 
 export default {
@@ -40,9 +38,6 @@ export default {
 
   data() {
     return {
-      rawTickets,
-      filteredTickets: rawTickets,
-
       rates: {
         RUB: { sym: '₽', val: 1 },
         USD: { sym: '$', val: 70.73 },
@@ -80,10 +75,6 @@ export default {
     },
   },
 
-  computed: {
-
-  },
-
   created() {
     axios.get('https://api.exchangeratesapi.io/latest?symbols=USD,RUB')
       .then(response => {
@@ -94,8 +85,7 @@ export default {
         console.log('USD: ', this.rates.USD.val, 'EUR: ', this.rates.EUR.val);
       })
       .catch(error => console.log(error));
-}     
-
+  },
 }
 </script>
 

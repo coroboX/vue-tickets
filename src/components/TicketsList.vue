@@ -22,6 +22,7 @@
 import TicketCard from './TicketCard.vue'
 import {v4 as uuid} from 'uuid';
 import Velocity from 'velocity-animate';
+import axios from 'axios';
 
   const formatDateItl = (rawDate, locale) => {
     const inputDate = new Date(rawDate);
@@ -110,24 +111,19 @@ export default {
     stops: Object,
   },
 
+  components: {
+    TicketCard,
+  },
+
   data() {
     const currency = this.cur;
-    const rates = this.currencyRates;
-    const sortedTickets = [ ...this.rawTickets]
-      .sort((a, b) => (a.price - b.price));
-    const tickets = formatTickets(rates, sortedTickets);
-
     let stop = this.stops;
 
     return {
-      tickets,
+      tickets: [],
       currency,
       stop,
     };
-  },
-
-  components: {
-    TicketCard,
   },
 
   methods: {
@@ -157,6 +153,15 @@ export default {
   },
 
   computed: {
+    formattedTickets() {
+      const rates = this.currencyRates;
+      const sortedTickets = [...this.tickets]
+        .sort((a, b) => (a.price - b.price));
+      const tickets = formatTickets(rates, sortedTickets);
+
+      return tickets;
+    },
+
     filteredTickets() {
       const pronounce = {
         0: 'Без пересадок',
@@ -171,7 +176,7 @@ export default {
         stops[pronounce[key]] = this.stops[key];
       }
 
-      const filteredTickets = this.tickets.filter(ticket => {
+      const filteredTickets = this.formattedTickets.filter(ticket => {
         for (const key in stops) {
           if (ticket.stops === key && stops[key]) {
             return true;
@@ -183,6 +188,15 @@ export default {
 
       return filteredTickets;
     }
+  },
+
+  created() {
+    axios.get('https://my-json-server.typicode.com/coroboX/vue-tickets-json/tickets')
+      .then(response => {
+        this.tickets = [ ...response.data ];
+        console.log('tickets loaded from https://my-json-server.typicode.com/coroboX/vue-tickets-json');
+      })
+      .catch(error => console.log(error));
   },
 
   watch: { 
