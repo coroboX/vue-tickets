@@ -109,7 +109,6 @@ export default {
   
   .ticket {
     width: 566px;
-    height: 161px;
     margin-bottom: 20px;
     display: flex;
 
@@ -132,6 +131,8 @@ export default {
     &__carrier-logo {
       width: 120px;
       height: 35px;
+      margin: 0 auto 20px;
+
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -258,6 +259,11 @@ export default {
         flex-direction: row-reverse;
         border: none;
         width: 90%;
+      }
+
+      &__stops {
+        top: auto;
+        bottom: 0px;
       }
 
       &__button {
