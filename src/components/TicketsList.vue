@@ -25,7 +25,9 @@ import Velocity from 'velocity-animate';
 import axios from 'axios';
 
   const formatDateItl = (rawDate, locale) => {
-    const inputDate = new Date(rawDate);
+    const parsing = rawDate.split('.');
+    const parsedDate = `20${parsing[2]}-${parsing[0]}-${parsing[1]}`;
+    const inputDate = new Date(parsedDate);
     const month = inputDate
       .toLocaleString(locale, { month: 'short' })
       .replace('.', '');
