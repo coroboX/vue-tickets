@@ -15,9 +15,10 @@
       />
 
       <TicketsList
-        v-bind:rawTickets="filterTickets"
+        v-bind:rawTickets="rawTickets"
         v-bind:currencyRates="rates"
         v-bind:cur="filterState.currency"
+        v-bind:stops="filterState.stops"
       />
     </main>
   </div>
@@ -80,22 +81,7 @@ export default {
   },
 
   computed: {
-    filterTickets: function() {
-      const tickets = this.rawTickets;
-      const stops = this.filterState.stops;
-      const filteredTickets = tickets.filter(ticket => {
 
-        for (const key in stops) {
-          if (ticket.stops === +key && stops[key]) {
-            return true;
-          }
-        }
-
-        return false;
-      });
-
-      return filteredTickets;
-    },
   },
 
   created() {
@@ -104,7 +90,7 @@ export default {
         const rates = response.data.rates;
         this.rates.EUR.val = rates.RUB;
         this.rates.USD.val = rates.RUB / rates.USD;
-        console.log('get from server:');
+        console.log('rates from exchangeratesapi.io:');
         console.log('USD: ', this.rates.USD.val, 'EUR: ', this.rates.EUR.val);
       })
       .catch(error => console.log(error));

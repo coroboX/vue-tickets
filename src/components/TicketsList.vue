@@ -1,19 +1,27 @@
 <template>
-  <section
+  <transition-group
+    name="staggered-fade"
     class="tickets"
+    tag="section"
+    v-bind:css="false"
+    v-on:before-enter="beforeEnter"
+    v-on:enter="enter"
+    v-on:leave="leave"
   >
     <TicketCard
-      v-for="ticket in filteredTickets"
+      v-for="(ticket, ind) in filteredTickets"
+      v-bind:data-index="ind"
       v-bind:key="ticket.id"
       v-bind:ticket="ticket"
       v-bind:currency="currency"
     />
-  </section>
+  </transition-group>
 </template>
 
 <script>
 import TicketCard from './TicketCard.vue'
 import {v4 as uuid} from 'uuid';
+import Velocity from 'velocity-animate';
 
   const formatDateItl = (rawDate, locale) => {
     const inputDate = new Date(rawDate);
@@ -99,16 +107,19 @@ export default {
     rawTickets: Array,
     currencyRates: Object,
     cur: String,
+    stops: Object,
   },
 
   data() {
     const currency = this.cur;
     const rates = this.currencyRates;
     const tickets = formatTickets(rates, this.rawTickets);
+    let stop = this.stops;
 
     return {
-      filteredTickets: tickets,
+      tickets,
       currency,
+      stop,
     };
   },
 
@@ -116,15 +127,66 @@ export default {
     TicketCard,
   },
 
+  methods: {
+    beforeEnter: function (element) {
+      element.style.opacity = 0
+      element.style.height = 0
+    },
+    enter: function (element, done) {
+      var delay = element.dataset.id * 150
+      setTimeout(function () {
+        Velocity(
+          element,
+          { opacity: 1, height: '161px' },
+          { complete: done }
+        )
+      }, delay)
+    },
+    leave: function (element, done) {
+      var delay = element.dataset.id * 150
+      setTimeout(function () {
+        Velocity(
+          element,
+          { opacity: 0, height: 0},
+          { complete: done }
+        )
+      }, delay)
+    },
+  },
+
+  computed: {
+    filteredTickets() {
+      const pronounce = {
+        0: 'Без пересадок',
+        1: '1 пересадка',
+        2: '2 пересадки',
+        3: '3 пересадки',
+      };
+
+      const stops = {};
+
+      for (const key in this.stops) {
+        stops[pronounce[key]] = this.stops[key];
+      }
+
+      const filteredTickets = this.tickets.filter(ticket => {
+        for (const key in stops) {
+          if (ticket.stops === key && stops[key]) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+
+      return filteredTickets;
+    }
+  },
+
   watch: { 
     cur(newVal) {
       this.currency = newVal;
     },
-
-    rawTickets(newVal) {
-      const rates = this.currencyRates;
-      this.filteredTickets = formatTickets(rates, newVal);
-    }
   },
 }
 </script>
