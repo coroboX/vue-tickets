@@ -113,7 +113,10 @@ export default {
   data() {
     const currency = this.cur;
     const rates = this.currencyRates;
-    const tickets = formatTickets(rates, this.rawTickets);
+    const sortedTickets = [ ...this.rawTickets]
+      .sort((a, b) => (a.price - b.price));
+    const tickets = formatTickets(rates, sortedTickets);
+
     let stop = this.stops;
 
     return {
