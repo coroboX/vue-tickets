@@ -210,13 +210,14 @@ export default {
       font-weight: 600;
       text-transform: uppercase;
 
-      background: inherit;
+      cursor: inherit;
+      background-color: #f1fcff;
       outline: none;
       border: none;
     }
 
     &:hover {
-      background-color: #F1FCFF;
+      background-color: #f1fcff;
     }
   }
 
