@@ -168,9 +168,17 @@ export default {
     padding: 18px 0;
     margin-bottom: 20px;
 
+    position: sticky;
+    top: 20px;
+
     border-radius: 5px;
     background: #FFFFFF;
     box-shadow: 0px 1px 4px rgba(91, 137, 164, 0.25);
+
+    @media (max-width: 840px) {
+      position: static;
+    }
+
   }
 
   .filter-form {
