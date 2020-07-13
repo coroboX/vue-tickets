@@ -131,13 +131,14 @@ export default {
     beforeEnter: function (element) {
       element.style.opacity = 0
       element.style.height = 0
+      element.style.marginBottom = 0
     },
     enter: function (element, done) {
       var delay = element.dataset.id * 150
       setTimeout(function () {
         Velocity(
           element,
-          { opacity: 1, height: '161px' },
+          { opacity: 1, height: '161px', marginBottom: '20px' },
           { complete: done }
         )
       }, delay)
@@ -147,7 +148,7 @@ export default {
       setTimeout(function () {
         Velocity(
           element,
-          { opacity: 0, height: 0},
+          { opacity: 0, height: 0, marginBottom: 0 },
           { complete: done }
         )
       }, delay)
