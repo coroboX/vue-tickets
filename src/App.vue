@@ -7,6 +7,7 @@
         alt="logo that displays white plane on blue circle"
       />
     </header>
+    <Canvas />
     <main class="content">
       <FilterCard 
         v-bind:filter="filterState"
@@ -20,7 +21,6 @@
         v-bind:stops="filterState.stops"
       />
     </main>
-    <Canvas />
   </div>
 </template>
 

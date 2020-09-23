@@ -1,23 +1,31 @@
 <template>
 <div>
-  This is wrapper
-  <canvas></canvas>
+  
+  <canvas
+    ref="my-canvas"
+    @resize="resize"
+    @mousemove="onMouseMove"
+    @touchmove="onTouchMove"
+    @touchend="onMouseLeave"
+    @mouseleave="onMouseLeave"
+  ></canvas>
+    <button @click="resize">This is wrapper</button>
 </div>
+
+
 </template>
 
 <script>
-const STAR_COUNT = ( window.innerWidth + window.innerHeight ) / 8,
-      STAR_SIZE = 3,
-      STAR_MIN_SCALE = 0.2,
-      OVERFLOW_THRESHOLD = 50;
-// const canvas = document.querySelector( 'canvas' ),
-//       context = canvas.getContext( '2d' );
-
 export default {
   name: 'Canvas',
 
   data(){
     return {
+      STAR_COUNT: 0,
+      STAR_SIZE: 0,
+      STAR_MIN_SCALE: 0,
+      OVERFLOW_THRESHOLD: 0,
+
       scale: 1, // device pixel ratio
       width: 0,
       height: 0,
@@ -32,8 +40,12 @@ export default {
   },
 
   mounted() {
+    this.STAR_COUNT = ( this.$refs["my-canvas"].clientWidth + this.$refs["my-canvas"].clientHeight ) / 8,
+    this.STAR_SIZE = 3,
+    this.STAR_MIN_SCALE = 0.2,
+    this.OVERFLOW_THRESHOLD = 50;
     this.canvas = document.querySelector( 'canvas' ),
-    this.context = this.canvas.getContext( '2d' );
+    this.context = this.$refs['my-canvas'].getContext('2d'),
     this.generate();
     this.resize();
     this.step();
@@ -41,11 +53,14 @@ export default {
 
   methods: {
     generate() {
-      for( let i = 0; i < STAR_COUNT; i++ ) {
+      console.log(this.STAR_COUNT);
+      console.log(this);
+      console.log(this.$refs["my-canvas"].clientHeight);
+      for( let i = 0; i < this.STAR_COUNT; i++ ) {
         this.stars.push({
           x: 0,
           y: 0,
-          z: STAR_MIN_SCALE + Math.random() * ( 1 - STAR_MIN_SCALE )
+          z: this.STAR_MIN_SCALE + Math.random() * ( 1 - this.STAR_MIN_SCALE )
         });
       }
     },
@@ -73,38 +88,43 @@ export default {
         }
       }
 
-      star.z = STAR_MIN_SCALE + Math.random() * ( 1 - STAR_MIN_SCALE );
+      star.z = this.STAR_MIN_SCALE + Math.random() * ( 1 - this.STAR_MIN_SCALE );
       if( direction === 'z' ) {
         star.z = 0.1;
         star.x = Math.random() * this.width;
         star.y = Math.random() * this.height;
       }
       else if( direction === 'l' ) {
-        star.x = -OVERFLOW_THRESHOLD;
+        star.x = -this.OVERFLOW_THRESHOLD;
         star.y = this.height * Math.random();
       }
       else if( direction === 'r' ) {
-        star.x = this.width + OVERFLOW_THRESHOLD;
+        star.x = this.width + this.OVERFLOW_THRESHOLD;
         star.y = this.height * Math.random();
       }
       else if( direction === 't' ) {
         star.x = this.width * Math.random();
-        star.y = -OVERFLOW_THRESHOLD;
+        star.y = -this.OVERFLOW_THRESHOLD;
       }
       else if( direction === 'b' ) {
         star.x = this.width * Math.random();
-        star.y = this.height + OVERFLOW_THRESHOLD;
+        star.y = this.height + this.OVERFLOW_THRESHOLD;
       }
     },
     resize() {
+      // console.log('resize');
+
       this.scale = window.devicePixelRatio || 1;
-      this.width = window.innerWidth * this.scale;
-      this.height = window.innerHeight * this.scale;
+      this.width = 500;
+      // this.width = window.innerWidth * this.scale;
+      this.height = 500;
+      // this.height = window.innerHeight * this.scale;
       this.canvas.width = this.width;
       this.canvas.height = this.height;
       this.stars.forEach( this.placeStar );
     },
     step() {
+        // console.log('step');
       this.context.clearRect( 0, 0, this.width, this.height );
       this.update();
       this.render();
@@ -122,17 +142,20 @@ export default {
         star.y += ( star.y - this.height/2 ) * this.velocity.z * star.z;
         star.z += this.velocity.z;
         // recycle when out of bounds
-        if( star.x < -OVERFLOW_THRESHOLD || star.x > this.width + OVERFLOW_THRESHOLD || star.y < -OVERFLOW_THRESHOLD || star.y > this.height + OVERFLOW_THRESHOLD ) {
+        if( star.x < -this.OVERFLOW_THRESHOLD || star.x > this.width + this.OVERFLOW_THRESHOLD || star.y < -this.OVERFLOW_THRESHOLD || star.y > this.height + this.OVERFLOW_THRESHOLD ) {
           this.recycleStar( star );
         }
       });
     },
     render() {
+// console.log('render', this.stars);
+
       this.stars.forEach( ( star ) => {
         this.context.beginPath();
         this.context.lineCap = 'round';
-        this.context.lineWidth = STAR_SIZE * star.z * this.scale;
-        this.context.strokeStyle = 'rgba(255,255,255,'+(0.5 + 0.5*Math.random())+')';
+        this.context.lineWidth = this.STAR_SIZE * star.z * this.scale;
+        this.context.strokeStyle = 'rgb(255,255,255)';
+        // this.context.strokeStyle = 'rgba(255,255,255,'+(0.5 + 0.5*Math.random())+')';
         this.context.beginPath();
         this.context.moveTo( star.x, star.y );
         var tailX = this.velocity.x * 2,
@@ -142,9 +165,13 @@ export default {
         if( Math.abs( tailY ) < 0.1 ) tailY = 0.5;
         this.context.lineTo( star.x + tailX, star.y + tailY );
         this.context.stroke();
+
+// console.log(star);
       });
     },
     movePointer( x, y ) {
+      console.log('mousemove  ', 'x: ',x, 'y: ', y);
+
       if( typeof pointerX === 'number' && typeof pointerY === 'number' ) {
         let ox = x - this.pointerX,
             oy = y - this.pointerY;
@@ -155,8 +182,9 @@ export default {
       this.pointerY = y;
     },
     onMouseMove( event ) {
+      // console.log('mousemove  ', event);
       this.touchInput = false;
-      this.movePointer( event.clientX, event.clientY );
+      this.movePointer( event.offsetX, event.offsetY );
     },
     onTouchMove( event ) {
       this.touchInput = true;
@@ -171,6 +199,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+div {
+  background-color: black;
+  margin: 0 auto;
 
+  width: 50vw;
+  height: 50vh;
+}
+canvas {
+  width: 100%;
+  height: 90%;
+}
 </style>
