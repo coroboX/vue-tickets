@@ -20,12 +20,14 @@
         v-bind:stops="filterState.stops"
       />
     </main>
+    <Canvas />
   </div>
 </template>
 
 <script>
 import FilterCard from './components/FilterCard.vue';
 import TicketsList from './components/TicketsList.vue';
+import Canvas from './components/Canvas.vue';
 import axios from 'axios';
 
 export default {
@@ -34,6 +36,7 @@ export default {
   components: {
     FilterCard,
     TicketsList,
+    Canvas,
   },
 
   data() {
