@@ -9,7 +9,6 @@
     @touchend="onMouseLeave"
     @mouseleave="onMouseLeave"
   ></canvas>
-    <button @click="resize">This is wrapper</button>
 </div>
 
 
@@ -49,9 +48,17 @@ export default {
     this.generate();
     this.resize();
     this.step();
+    window.addEventListener('resize', this.resizeCallBack);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizeCallBack);
   },
 
   methods: {
+    resizeCallBack() {
+      this.resize();
+    },
     generate() {
       console.log(this.STAR_COUNT);
       console.log(this);
@@ -112,19 +119,15 @@ export default {
       }
     },
     resize() {
-      // console.log('resize');
 
       this.scale = window.devicePixelRatio || 1;
-      this.width = 500;
-      // this.width = window.innerWidth * this.scale;
-      this.height = 500;
-      // this.height = window.innerHeight * this.scale;
+      this.width = this.$refs["my-canvas"].clientWidth * this.scale;
+      this.height = this.$refs["my-canvas"].clientHeight * this.scale;
       this.canvas.width = this.width;
       this.canvas.height = this.height;
       this.stars.forEach( this.placeStar );
     },
     step() {
-        // console.log('step');
       this.context.clearRect( 0, 0, this.width, this.height );
       this.update();
       this.render();
@@ -148,14 +151,12 @@ export default {
       });
     },
     render() {
-// console.log('render', this.stars);
-
       this.stars.forEach( ( star ) => {
         this.context.beginPath();
         this.context.lineCap = 'round';
         this.context.lineWidth = this.STAR_SIZE * star.z * this.scale;
-        this.context.strokeStyle = 'rgb(255,255,255)';
-        // this.context.strokeStyle = 'rgba(255,255,255,'+(0.5 + 0.5*Math.random())+')';
+        // this.context.strokeStyle = 'rgb(255,255,255)';
+        this.context.strokeStyle = 'rgba(255,255,255,'+(0.5 + 0.5*Math.random())+')';
         this.context.beginPath();
         this.context.moveTo( star.x, star.y );
         var tailX = this.velocity.x * 2,
@@ -166,13 +167,10 @@ export default {
         this.context.lineTo( star.x + tailX, star.y + tailY );
         this.context.stroke();
 
-// console.log(star);
       });
     },
     movePointer( x, y ) {
-      console.log('mousemove  ', 'x: ',x, 'y: ', y);
-
-      if( typeof pointerX === 'number' && typeof pointerY === 'number' ) {
+      if( typeof this.pointerX === 'number' && typeof this.pointerY === 'number' ) {
         let ox = x - this.pointerX,
             oy = y - this.pointerY;
         this.velocity.tx = this.velocity.tx + ( ox / 8*this.scale ) * ( this.touchInput ? 1 : -1 );
@@ -182,7 +180,6 @@ export default {
       this.pointerY = y;
     },
     onMouseMove( event ) {
-      // console.log('mousemove  ', event);
       this.touchInput = false;
       this.movePointer( event.offsetX, event.offsetY );
     },
@@ -209,6 +206,6 @@ div {
 }
 canvas {
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 </style>
